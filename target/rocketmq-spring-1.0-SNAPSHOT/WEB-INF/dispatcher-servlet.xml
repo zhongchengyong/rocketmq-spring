@@ -16,8 +16,7 @@
     <mvc:annotation-driven/>
 
     <!-- 自动扫描该包，使SpringMVC认为包下用了@controller注解的类是控制器 -->
-    <context:component-scan base-package="com.kode.rokectmq">
-    </context:component-scan>
+    <context:component-scan base-package="com.kode.rocketmq.controller"/>
 
 
     <!-- 当上面要访问的静态资源不包括在上面的配置中时，则根据此配置来访问 -->

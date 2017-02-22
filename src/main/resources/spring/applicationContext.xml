@@ -7,13 +7,13 @@
          http://www.springframework.org/schema/context
          http://www.springframework.org/schema/context/spring-context.xsd
          http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd"
-       default-lazy-init="true">
+       >
+
+    <context:component-scan base-package="com.kode.rocketmq">
+        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+    </context:component-scan>
 
     <context:annotation-config/>
-
-    <!-- service -->
-    <!--    <context:component-scan base-package="com.kode.rokectmq">
-        </context:component-scan>-->
 
     <!--AOP-->
     <bean id="logAspect" class="com.kode.aspect.LogAspect"/>
@@ -25,5 +25,13 @@
             <aop:around pointcut-ref="receivedService" method="around"/>
         </aop:aspect>
     </aop:config>
+    <bean id="propertyConfigurer"
+          class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations">
+            <list>
+                <value>classpath:application.properties</value>
+            </list>
+        </property>
+    </bean>
 
 </beans>

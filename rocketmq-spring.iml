@@ -27,6 +27,12 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="Maven: org.apache.rocketmq:rocketmq-all:4.0.0-incubating" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.rocketmq:rocketmq-client:4.0.0-incubating" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.rocketmq:rocketmq-common:4.0.0-incubating" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.rocketmq:rocketmq-remoting:4.0.0-incubating" level="project" />
+    <orderEntry type="library" name="Maven: com.alibaba:fastjson:1.2.12" level="project" />
+    <orderEntry type="library" name="Maven: io.netty:netty-all:4.0.36.Final" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-core:4.3.4.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: commons-logging:commons-logging:1.2" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-beans:4.3.4.RELEASE" level="project" />
