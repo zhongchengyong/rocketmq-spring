@@ -1,6 +1,7 @@
 package com.kode.rocketmq.controller;
 
 import com.kode.rocketmq.Producer;
+import com.kode.rocketmq.config.Configuration;
 import org.apache.rocketmq.client.exception.MQBrokerException;
 import org.apache.rocketmq.client.exception.MQClientException;
 import org.apache.rocketmq.client.producer.SendResult;
@@ -26,12 +27,15 @@ public class RocketMqController {
     private static final Logger logger = LoggerFactory.getLogger(RocketMqController.class);
 
     @Autowired
+    private Configuration config;
+
+    @Autowired
     private Producer producer;
 
     @RequestMapping("send")
     public String sendMessage(String msg) throws InterruptedException, RemotingException, MQClientException, MQBrokerException {
         logger.info("send msg:{}", msg);
-        Message message = new Message("MyTopic", "MyTag", msg.getBytes());
+        Message message = new Message(config.getTopic(), config.getTag(), msg.getBytes());
         SendResult result = producer.getDefaultMQProducer().send(message);
         if (result.getSendStatus() == SendStatus.SEND_OK) {
             return SUCCESS;

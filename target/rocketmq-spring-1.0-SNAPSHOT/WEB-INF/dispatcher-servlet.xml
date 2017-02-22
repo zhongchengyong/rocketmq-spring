@@ -9,8 +9,7 @@
         http://www.springframework.org/schema/context
         http://www.springframework.org/schema/context/spring-context.xsd
         http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
-        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
 
     <!-- 默认的注解映射的支持 -->
     <mvc:annotation-driven/>
@@ -19,15 +18,16 @@
     <context:component-scan base-package="com.kode.rocketmq.controller"/>
 
 
-    <!-- 当上面要访问的静态资源不包括在上面的配置中时，则根据此配置来访问 -->
-    <!--
-        <mvc:default-servlet-handler/>
-    -->
-
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver"
           p:prefix="/WEB-INF/jsp/"
           p:suffix=".jsp"/>
-    <!-- 配置直接转发的页面 -->
 
-    <aop:aspectj-autoproxy/>
+    <aop:config>
+        <aop:aspect id="received" ref="logAspect">
+            <aop:pointcut id="receivedService"
+                          expression="execution(* com.kode.rocketmq.controller.*.*(..))"/>
+            <aop:around pointcut-ref="receivedService" method="around"/>
+        </aop:aspect>
+    </aop:config>
+
 </beans>

@@ -7,7 +7,7 @@
          http://www.springframework.org/schema/context
          http://www.springframework.org/schema/context/spring-context.xsd
          http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd"
-       >
+>
 
     <context:component-scan base-package="com.kode.rocketmq">
         <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
@@ -15,16 +15,6 @@
 
     <context:annotation-config/>
 
-    <!--AOP-->
-    <bean id="logAspect" class="com.kode.aspect.LogAspect"/>
-
-    <aop:config>
-        <aop:aspect id="received" ref="logAspect">
-            <aop:pointcut id="receivedService"
-                          expression="execution(* com.kode.rokectmq..*.*(..))"/>
-            <aop:around pointcut-ref="receivedService" method="around"/>
-        </aop:aspect>
-    </aop:config>
     <bean id="propertyConfigurer"
           class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="locations">
@@ -33,5 +23,18 @@
             </list>
         </property>
     </bean>
+
+    <!--AOP-->
+    <bean id="logAspect" class="com.kode.aspect.LogAspect"/>
+    <aop:config>
+        <aop:aspect id="received" ref="logAspect">
+            <aop:pointcut id="receivedService"
+                          expression="execution(* com.kode.rocketmq.service..*.*(..))"/>
+            <aop:around pointcut-ref="receivedService" method="around"/>
+        </aop:aspect>
+    </aop:config>
+
+    <aop:aspectj-autoproxy/>
+    <aop:aspectj-autoproxy proxy-target-class="true"/>
 
 </beans>

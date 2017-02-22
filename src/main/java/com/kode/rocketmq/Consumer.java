@@ -1,5 +1,6 @@
 package com.kode.rocketmq;
 
+import com.kode.rocketmq.config.Configuration;
 import com.kode.rocketmq.service.RocketMqMessageWrapper;
 import org.apache.rocketmq.client.consumer.DefaultMQPushConsumer;
 import org.apache.rocketmq.client.exception.MQClientException;
@@ -8,7 +9,6 @@ import org.apache.rocketmq.common.protocol.heartbeat.MessageModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -24,32 +24,20 @@ public class Consumer {
 
     private DefaultMQPushConsumer defaultMQPushConsumer;
 
-    @Value("${namesrvAddr}")
-    private String namesrvAddr;
-
-    @Value("${consumerGroup}")
-    private String consumerGroup;
-
-    @Value("${topic}")
-    private String topic;
-
-    @Value("${subExpression}")
-    private String subExpression;
-
-    @Value("${instanceName}")
-    private String instanceName;
+    @Autowired
+    private Configuration config;
 
     @Autowired
     private RocketMqMessageWrapper rocketMqMessageWrapper;
 
     @PostConstruct
     public void init() throws MQClientException {
-        defaultMQPushConsumer = new DefaultMQPushConsumer(consumerGroup);
-        defaultMQPushConsumer.setNamesrvAddr(namesrvAddr);
-        defaultMQPushConsumer.setInstanceName(instanceName);
+        defaultMQPushConsumer = new DefaultMQPushConsumer(config.getConsumerGroup());
+        defaultMQPushConsumer.setNamesrvAddr(config.getNamesrvAddr());
+        defaultMQPushConsumer.setInstanceName(config.getInstanceName());
 
         //设置订阅tag下的subExpression
-        defaultMQPushConsumer.subscribe(topic, subExpression);
+        defaultMQPushConsumer.subscribe(config.getTopic(), config.getTag());
 
         // 设置Consumer第一次启动是从队列头部开始消费还是队列尾部开始消费<br>
         // 如果非第一次启动，那么按照上次消费的位置继续消费
@@ -69,7 +57,7 @@ public class Consumer {
     }
 
     @PreDestroy
-    public void destroy(){
+    public void destroy() {
         defaultMQPushConsumer.shutdown();
     }
 
